@@ -3,11 +3,11 @@ import astropy.units as u
 import numpy as np
 
 class Planet():
-    def __init__(self, name: str, semimajor: float, semiminor: float, orbital_inclination: float, radius: float, right_ascension: float):
+    def __init__(self, name: str, semimajor: float, semiminor: float, orbital_inclination: float, radius: float, right_ascension: float, mass):
         self.name = name
         self.semimajor = semimajor * u.AU
         self.semiminor = semiminor * u.AU
-        self.orbital_inclination = orbital_inclination * u.deg
+        self.orbital_inclination = (90 - (90 + orbital_inclination)) * u.deg
         self.right_ascension = right_ascension # degrees
         self.radius = radius * u.km
         self.eccentricity = self.calc_eccentricity()
@@ -15,6 +15,7 @@ class Planet():
         self.aphelion = self.calc_aphelion()
         self.orbital_period = self.calc_orbital_period()
         self.velocity = self.calc_velocity(self.right_ascension)
+        self.mass = mass * u.kg
 
     def __str__(self):
         return f"Planet: {self.name}\nRA: {self.right_ascension:.3f},\nVelocity: {self.velocity:.3f}\n"
