@@ -1,6 +1,7 @@
 from astropy.constants import G, M_sun
 import astropy.units as u
 import numpy as np
+import copy
 
 class Planet():
     def __init__(self, name: str, semimajor: float, semiminor: float, orbital_inclination: float, radius: float, right_ascension: float, mass):
@@ -65,3 +66,21 @@ class Planet():
         - speed: float, in m / s
         """
         return np.sqrt((G * M_sun * self.semimajor.to(u.m) * (1 - self.eccentricity**2)) / (self.calc_distance_from_sun(theta).to(u.m)**2))
+    
+    def calc_position_after_days(self, days_past):
+        velocity = copy.copy(self.velocity)
+        angular_position = copy.copy(self.right_ascension)
+        for j in range(int(days_past)):
+            # planet velocity is in m/s
+            # planet right ascension is in degrees
+            velocity = self.calc_velocity(angular_position.to(u.rad).value)
+            angular_velocity = velocity / self.calc_distance_from_sun(angular_position.to(u.rad)).to(u.m) * u.rad
+            # angular velocity is in rad/s
+            seconds_in_day = 86400 * u.s
+            if days_past > 0:
+                angular_position += (angular_velocity * seconds_in_day).to(u.deg)
+            else:
+                angular_position -= (angular_velocity * seconds_in_day).to(u.deg)
+            if angular_position >= 360 * u.deg:
+                angular_position -= 360 * u.deg
+        return angular_position
