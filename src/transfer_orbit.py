@@ -8,7 +8,7 @@ from satellite import Satellite
 
 START_YEAR = "2023"
 START_MONTH = "06"
-START_DAY = "20"
+START_DAY = "27"
 obstime = Time(f'{START_YEAR}-{START_MONTH}-{START_DAY}T00:00:00.000')
 
 # https://en.wikipedia.org/wiki/Semi-major_and_semi-minor_axes
@@ -28,14 +28,16 @@ ALL_PLANETS = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus
 EARTH_MARS = ["Earth", "Mars"]
 planets_to_sim = EARTH_MARS
 STEP_DAYS = 10
-SUN_SCALE = 10
-PLANET_SCALE = 1000
+SUN_SCALE = 25
+PLANET_SCALE = 2000
 ANIMATE = False
 
-sim = Simulator(planet_dict=PLANETS, planets_to_sim=planets_to_sim, planet_scale=PLANET_SCALE, sun=True, sun_scale=SUN_SCALE, step_days=STEP_DAYS, year=START_YEAR, month=START_MONTH, day=START_DAY, dim3=True, stride=50, buttons=(not ANIMATE))
+satellite = Satellite("Loyalty", PLANETS["Earth"], PLANETS["Mars"], 300, 37000, graph_ax=None)
+satellite = None
+sim = Simulator(planet_dict=PLANETS, planets_to_sim=planets_to_sim, planet_scale=PLANET_SCALE, sun=True, sun_scale=SUN_SCALE, step_days=STEP_DAYS, year=START_YEAR, month=START_MONTH, day=START_DAY, satellite=satellite, dim3=True, stride=50, buttons=(not ANIMATE))
 
 if ANIMATE:
-    sim.run(anim_length=36, anim_save_path="../gifs/earth_mars.gif")
+    sim.run(anim_length=36, anim_save_path="../gifs/transfer_no_circles.gif")
 else:
     sim.run(days_from_start=0)
 
