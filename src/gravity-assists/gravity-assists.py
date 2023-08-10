@@ -17,7 +17,7 @@ YEAR = 2023
 MONTH = 8
 DAY = 8
 date = datetime(YEAR, MONTH, DAY)
-BUTTONS = False
+BUTTONS = True
 
 # Load the planetary ephemeris
 eph = load('de440.bsp')
@@ -106,13 +106,13 @@ ta = earth.orbital_elements.true_anomaly.to(u.rad)
 # flight_angle = np.arctan((e * np.sin(ta)) / (1 + (e * np.cos(ta))))
 flight_angle = 2 * u.rad
 print(flight_angle)
-delta_v = 36 * (u.km / u.s)
+delta_v = 8 * (u.km / u.s)
 
 craft = Spacecraft(
             "Ingenuity", 
             1000 * u.kg,
             10 * u.m, 
-            [earth.position[0] + (0.011 * u.au), earth.position[1] + (0.011 * u.au)],
+            [earth.position[0] + (0.03 * u.au), earth.position[1] + (0.03 * u.au)],
             [delta_v * np.cos(flight_angle), delta_v * np.sin(flight_angle)],
             [BODIES[planet] for planet in TO_DRAW],
             BODIES["Sun"]
