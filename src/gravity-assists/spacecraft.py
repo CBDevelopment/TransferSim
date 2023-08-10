@@ -25,6 +25,7 @@ class Spacecraft():
         acceleration = [0, 0]
         in_soi = False
         soi = None
+        softening = 1 * u.m
         for body in self.bodies:
             # Distance from spacecraft to body
             dist = np.sqrt((self.position[0].to(u.m) - body.position[0].to(u.m))**2 + (self.position[1].to(u.m) - body.position[1].to(u.m))**2)
@@ -37,22 +38,22 @@ class Spacecraft():
             # Acceleration due to body
             print(soi.name)
             centered_pos = [self.position[0].to(u.m) - soi.position[0].to(u.m), self.position[1].to(u.m) - soi.position[1].to(u.m)]
-            angle = np.arctan(centered_pos[1] / centered_pos[0])
-            distance = np.sqrt((self.position[0].to(u.m) - soi.position[0].to(u.m))**2 + (self.position[1].to(u.m) - soi.position[1].to(u.m))**2)
+            angle = np.arctan2(centered_pos[1], centered_pos[0])
+            distance = np.sqrt((self.position[0].to(u.m) - soi.position[0].to(u.m))**2 + (self.position[1].to(u.m) - soi.position[1].to(u.m))**2 + softening**2)
             accel = (G * soi.mass) / (distance**2)
 
             acceleration = [0, 0]
-            acceleration[0] += accel * np.cos(angle)
-            acceleration[1] += accel * np.sin(angle)
+            acceleration[0] -= accel * np.cos(angle)
+            acceleration[1] -= accel * np.sin(angle)
         else:
             # Acceleration due to the Sun
             print("Sun")
-            angle = np.arctan(self.position[1].to(u.m) / self.position[0].to(u.m))
-            distance = np.sqrt((self.position[0].to(u.m) - self.sun.position[0].to(u.m))**2 + (self.position[1].to(u.m) - self.sun.position[1].to(u.m))**2)
+            angle = np.arctan2(self.position[1].to(u.m), self.position[0].to(u.m))
+            distance = np.sqrt((self.position[0].to(u.m) - self.sun.position[0].to(u.m))**2 + (self.position[1].to(u.m) - self.sun.position[1].to(u.m))**2 + softening**2)
             accel = (G * M_sun) / (distance**2)
             
-            acceleration[0] += accel * np.cos(angle)
-            acceleration[1] += accel * np.sin(angle)
+            acceleration[0] -= accel * np.cos(angle)
+            acceleration[1] -= accel * np.sin(angle)
         return acceleration
     
     def move(self, time_step):
