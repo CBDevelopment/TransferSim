@@ -51,7 +51,6 @@ class Spacecraft():
             distance = np.sqrt((self.position[0].to(u.m) - self.sun.position[0].to(u.m))**2 + (self.position[1].to(u.m) - self.sun.position[1].to(u.m))**2)
             accel = (G * M_sun) / (distance**2)
             
-            acceleration = [0, 0]
             acceleration[0] += accel * np.cos(angle)
             acceleration[1] += accel * np.sin(angle)
         return acceleration
