@@ -1,6 +1,6 @@
 # TransferSim
 
-- A Python program simulating a transfer orbit from Earth to Mars utilizing Lambert's problem
+- A Python program simulating transfer orbits between planets in the solar system
 - Developed by Cutter Beck in collaboration with Chris Baxter and Sean Nuzio at Worcester Polytechnic Institute (WPI)
 
 ## Getting Started
