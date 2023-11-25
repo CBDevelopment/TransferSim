@@ -3,6 +3,8 @@
 - A Python program simulating transfer orbits between planets in the solar system
 - Developed by Cutter Beck in collaboration with Chris Baxter and Sean Nuzio at Worcester Polytechnic Institute (WPI)
 
+![gifs\transfer_no_circles.gif](gifs\transfer_no_circles.gif)
+
 ## Getting Started
 - Install Python 3.11 or higher
 - Install all dependencies found in `requirements.txt` using the command `pip install -r requirements.txt`
