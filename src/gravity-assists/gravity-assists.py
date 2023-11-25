@@ -13,9 +13,9 @@ from matplotlib import animation
 from tqdm import tqdm
 import sys
 
-YEAR = 2023
-MONTH = 8
-DAY = 8
+YEAR = 2020
+MONTH = 7
+DAY = 30
 date = datetime(YEAR, MONTH, DAY)
 BUTTONS = True
 
@@ -87,12 +87,11 @@ def plot_spacecraft_position(spacecraft: Spacecraft, scale=1):
     AX.add_patch(craft_circ)
     AX.plot([pos[0] for pos in spacecraft.past_positions], [pos[1] for pos in spacecraft.past_positions], alpha=0.5, label=spacecraft.name + " Path")
     AX.text(spacecraft.position[0].value, spacecraft.position[1].value, spacecraft.name, color="black", fontsize=8)
-
-DAYS = 200
+  
 STEP = 10
-SUN_SCALE = 10
+SUN_SCALE = 25
 PLANET_SCALE = 1000
-CRAFT_SCALE = 10000
+CRAFT_SCALE = 1
 
 ALL_PLANETS = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"]
 INNER_PLANETS = ["Mercury", "Venus", "Earth", "Mars"]
@@ -104,21 +103,22 @@ earth = BODIES["Earth"]
 e = earth.orbital_elements.eccentricity
 ta = earth.orbital_elements.true_anomaly.to(u.rad)
 # flight_angle = np.arctan((e * np.sin(ta)) / (1 + (e * np.cos(ta))))
-flight_angle = 2 * u.rad
+flight_angle = 0.56 * u.rad
 print(flight_angle)
-delta_v = 36 * (u.km / u.s)
+delta_v = 34 * (u.km / u.s)
 
 craft = Spacecraft(
             "Ingenuity", 
             1000 * u.kg,
             10 * u.m, 
-            [earth.position[0] + (0.03 * u.au), earth.position[1] + (0.03 * u.au)],
+            [earth.position[0] + (0.01 * u.au), earth.position[1] + (0.01 * u.au)],
             [delta_v * np.cos(flight_angle), delta_v * np.sin(flight_angle)],
             [BODIES[planet] for planet in TO_DRAW],
             BODIES["Sun"]
             )
 print(craft.velocity)
 
+velocities = []
 def draw(bodies, time=t):
     global date, velocities
     AX.set_xlabel("X (AU)")
@@ -132,6 +132,7 @@ def draw(bodies, time=t):
         plot_body_position(body, scale=PLANET_SCALE)
         plot_soi(body)
     plot_spacecraft_position(craft, scale=CRAFT_SCALE)
+    velocities.append(np.sqrt(craft.velocity[0].value**2 + craft.velocity[1].value**2))
     AX.text(0, 0, f"{date.strftime('%b %d, %Y')}", color="black", fontsize=8)
 
 draw(TO_DRAW)
@@ -161,6 +162,9 @@ if BUTTONS:
     bdecrease.on_clicked(decrease)
 
     plt.show()
+
+    plt.plot(velocities)
+    plt.show()
 else:
     def increase(i):
         global date
@@ -171,5 +175,5 @@ else:
         plt.draw()
     
     ani = animation.FuncAnimation(FIG, increase, frames=tqdm(range(10), file=sys.stdout))
-    writergif = animation.PillowWriter(fps=60)
-    ani.save("D:\WPI\Junior Year\Summer Classes\Solar Systems\TransferSim\src\gravity-assists\gifs\parabola.gif", writer=writergif)
+    writergif = animation.PillowWriter(fps=120)
+    ani.save("D:\WPI\Junior Year\Summer Classes\Solar Systems\TransferSim\src\gravity-assists\gifs\EXAMPLE.gif", writer=writergif)

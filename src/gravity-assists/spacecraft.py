@@ -25,7 +25,7 @@ class Spacecraft():
         acceleration = [0, 0]
         in_soi = False
         soi = None
-        softening = 1 * u.m
+        softening = (1 * u.km).to(u.m)
         for body in self.bodies:
             # Distance from spacecraft to body
             dist = np.sqrt((self.position[0].to(u.m) - body.position[0].to(u.m))**2 + (self.position[1].to(u.m) - body.position[1].to(u.m))**2)
@@ -47,7 +47,7 @@ class Spacecraft():
             acceleration[1] -= accel * np.sin(angle)
         else:
             # Acceleration due to the Sun
-            print("Sun")
+            # print("Sun")
             angle = np.arctan2(self.position[1].to(u.m), self.position[0].to(u.m))
             distance = np.sqrt((self.position[0].to(u.m) - self.sun.position[0].to(u.m))**2 + (self.position[1].to(u.m) - self.sun.position[1].to(u.m))**2 + softening**2)
             accel = (G * M_sun) / (distance**2)
@@ -71,6 +71,7 @@ class Spacecraft():
                 self.position[0] += ((self.velocity[0].to(u.au / u.s).value * step.to(u.s).value) + (0.5 * self.acceleration[0].to(u.au / u.s**2).value * step.to(u.s).value)**2) * u.au
                 self.position[1] += ((self.velocity[1].to(u.au / u.s).value * step.to(u.s).value) + (0.5 * self.acceleration[1].to(u.au / u.s**2).value * step.to(u.s).value)**2) * u.au
                 self.past_positions.append([self.position[0].value, self.position[1].value])
+            print(self.velocity)
         else:
             self.position[0] = self.past_positions[time_step][0] * u.au
             self.position[1] = self.past_positions[time_step][1] * u.au

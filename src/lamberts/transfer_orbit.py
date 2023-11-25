@@ -6,9 +6,9 @@ from planet import Planet
 from simulator import Simulator
 from satellite import Satellite
 
-START_YEAR = "2024"
-START_MONTH = "09"
-START_DAY = "28"
+START_YEAR = "2020"
+START_MONTH = "07"
+START_DAY = "30"
 obstime = Time(f'{START_YEAR}-{START_MONTH}-{START_DAY}T00:00:00.000')
 
 # https://en.wikipedia.org/wiki/Semi-major_and_semi-minor_axes
@@ -37,7 +37,7 @@ satellite = Satellite("Loyalty", PLANETS["Earth"], PLANETS["Mars"], 1, 37000, gr
 sim = Simulator(planet_dict=PLANETS, planets_to_sim=planets_to_sim, planet_scale=PLANET_SCALE, sun=True, sun_scale=SUN_SCALE, step_days=STEP_DAYS, year=START_YEAR, month=START_MONTH, day=START_DAY, satellite=satellite, dim3=True, stride=50, buttons=(not ANIMATE))
 
 if ANIMATE:
-    sim.run(anim_length=36, anim_save_path="../gifs/transfer_no_circles.gif")
+    sim.run(anim_length=36, anim_save_path="./gifs/EXAMPLE.gif")
 else:
     sim.run(days_from_start=0)
 
