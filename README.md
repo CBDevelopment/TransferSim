@@ -78,9 +78,9 @@
     - This will show a 3D plot of the transfer orbit between two bodies, like Earth and Mars, based on a solved Lambert's problem
     - It also prints out the maximum and minimum time of flight (TOF) between the two bodies
 - To edit the configuration,
-    -Change the string `START_YEAR` to the starting year of the simulation
-    -Change the string `START_MONTH` to the starting month of the simulation
-    -Change the string `START_DAY` to the starting day of the simulation
+    - Change the string `START_YEAR` to the starting year of the simulation
+    - Change the string `START_MONTH` to the starting month of the simulation
+    - Change the string `START_DAY` to the starting day of the simulation
     - Change `planets_to_sim` to be a list of names of the planets you want to simulate
         - The list of available planets to simulate can be seen in the dictionary `PLANETS`
     - Change `STEP_DAYS` to be the number of days you want to increment the simulation by
