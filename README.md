@@ -14,45 +14,17 @@
 - Run `python gravity-assists.py`
     - In the current configuration, clicking +10 Days will increment the simulation by 10 days, and -10 Days will decrement the simulation by 10 days
 - The following variables can be changed to set how the simulation runs
-    - YEAR will set the starting year of the simulation
-    - MONTH will set the starting month of the simulation
-    - DAY will set the starting day of the simulation
-    - BUTTONS determines whether the simulation will run with interactive buttons or if it will run automatically in the background and save a GIF
-    - STEP determines how many days at a time the simulation will increase, this changes the value on the buttons as well
-    - SUN_SCALE determines the relative size of the Sun in the simulation
-    - PLANET_SCALE determines the relative size of the planets in the simulation
-    - CRAFT_SCALE determines the relative size of the spacecraft in the simulation
-    - TO_DRAW determines which planets will be drawn in the simulation
+    - `YEAR` will set the starting year of the simulation
+    - `MONTH` will set the starting month of the simulation
+    - `DAY` will set the starting day of the simulation
+    - `BUTTONS` determines whether the simulation will run with interactive buttons or if it will run automatically in the background and save a GIF
+    - `STEP` determines how many days at a time the simulation will increase, this changes the value on the buttons as well
+    - `SUN_SCALE` determines the relative size of the Sun in the simulation
+    - `PLANET_SCALE` determines the relative size of the planets in the simulation
+    - `CRAFT_SCALE` determines the relative size of the spacecraft in the simulation
+    - `TO_DRAW` determines which planets will be drawn in the simulation
     - Changing `flight_angle` and `delta_v` will change the flight path of the spacecraft
     - Changing `craft` will change starting values of the spacecraft
-    ```
-    YEAR = 2020
-    MONTH = 7
-    DAY = 30
-    ...
-    BUTTONS = True
-    ...
-    STEP = 10
-    SUN_SCALE = 25
-    PLANET_SCALE = 1000
-    CRAFT_SCALE = 1
-    ...
-    TO_DRAW = INNER_PLANETS
-    ...
-    flight_angle = 0.56 * u.rad
-    ...
-    delta_v = 34 * (u.km / u.s)
-
-    craft = Spacecraft(
-                "Ingenuity", 
-                1000 * u.kg,
-                10 * u.m, 
-                [earth.position[0] + (0.01 * u.au), earth.position[1] + (0.01 * u.au)],
-                [delta_v * np.cos(flight_angle), delta_v * np.sin(flight_angle)],
-                [BODIES[planet] for planet in TO_DRAW],
-                BODIES["Sun"]
-                )
-    ```
 
 ## Solving Lambert's Problem
 
